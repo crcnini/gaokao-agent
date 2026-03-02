@@ -1,6 +1,6 @@
 ---
 name: gaokao-agent
-description: "Socratic AI tutor for Zhejiang gaokao (Chinese college entrance exam). ALWAYS use this skill when the user asks ANY question involving: math (数学), Chinese language (语文), English (英语), physics (物理), chemistry (化学), biology (生物), history (历史), geography (地理), politics (政治), technology/Python/coding (技术/信息技术), exam strategy, weak points analysis, or study planning. Do NOT answer directly — run the CLI tool instead."
+description: "Socratic AI tutor for high school students preparing for Zhejiang gaokao (浙江高考). Use ONLY when a high school student asks exam-preparation questions: solving gaokao-style problems (数学题/物理题/化学题/生物题/历史题/地理题/政治题), high school Chinese/English exam questions (语文作文/英语翻译), high school technology subject (信息技术/通用技术 for gaokao), or gaokao study planning. Do NOT trigger for general adult coding questions, casual chat, or professional work topics."
 ---
 
 # 浙江高考 AI 辅导助手
