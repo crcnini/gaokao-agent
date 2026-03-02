@@ -1,5 +1,5 @@
 // MiniMax M2.5 API 适配器
-// 使用方式：设置环境变量 MINIMAX_API_KEY
+require('dotenv').config({ path: require('path').join(__dirname, '../.env') });
 
 const OpenAI = require('openai');
 

@@ -19,9 +19,16 @@ const DISPATCH_PROMPT = `你是一个高中学习助手的调度系统。
 
 async function dispatch(userInput, apiCall) {
   const response = await apiCall(DISPATCH_PROMPT, userInput);
+  // 去除 <think>...</think> 推理块（MiniMax M2.5 等推理模型会输出）
+  const cleaned = response.replace(/<think>[\s\S]*?<\/think>/g, '').trim();
   try {
-    return JSON.parse(response.trim());
+    return JSON.parse(cleaned);
   } catch {
+    // 尝试从文本中提取 JSON 对象
+    const match = cleaned.match(/\{[^}]+\}/);
+    if (match) {
+      try { return JSON.parse(match[0]); } catch {}
+    }
     return { subject: 'general', queryType: 'concept' };
   }
 }
