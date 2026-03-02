@@ -1,0 +1,19 @@
+{
+  "name": "gaokao-agent",
+  "version": "1.0.0",
+  "description": "> 基于 OpenClaw 的多 Agent 高考备考助手",
+  "main": "index.js",
+  "directories": {
+    "doc": "docs"
+  },
+  "scripts": {
+    "test": "echo \"Error: no test specified\" && exit 1"
+  },
+  "keywords": [],
+  "author": "",
+  "license": "ISC",
+  "type": "commonjs",
+  "dependencies": {
+    "openai": "^6.25.0"
+  }
+}
