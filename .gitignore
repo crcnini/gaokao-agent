@@ -2,6 +2,9 @@ node_modules/
 .env
 .DS_Store
 
+# 对话 session（本地运行时生成，含个人对话记录）
+memory/session.json
+
 # OpenClaw 工作区文件（本地生成，不入库）
 .openclaw/
 AGENTS.md

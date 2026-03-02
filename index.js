@@ -1,5 +1,6 @@
 const { dispatch } = require('./dispatcher');
 const { getProfileSummary } = require('./tools/memory');
+const { apiCallWithHistory } = require('./tools/api');
 const fs = require('fs');
 const path = require('path');
 
@@ -22,8 +23,7 @@ function loadAgentPrompt(subject) {
   return fs.readFileSync(path.join(__dirname, filePath), 'utf-8');
 }
 
-// ─── solve：个性化苏格拉底问句 ────────────────────────────────────────────────
-// 不再硬编码固定回答，让模型针对这道具体题目问一个有针对性的引导问
+// ─── 第一轮：solve ────────────────────────────────────────────────────────────
 const SOLVE_FIRST_TURN = `你是一个有温度的浙江高考家教老师。
 学生发来了一道题，你需要做两件事：
 
@@ -36,13 +36,13 @@ const SOLVE_FIRST_TURN = `你是一个有温度的浙江高考家教老师。
   - "向量的数量积你会算吗？先试着列一下式子给我看看。"
 
   不好的问法（禁止）：
-  - "你做到哪一步卡住了？" （太泛，没针对性）
+  - "你做到哪一步卡住了？"（太泛，没针对性）
   - 任何包含解题步骤或答案提示的句子
 
 语气：像带了你两个月的学姐，直接、温和、不废话。
 格式：两段话，不超过100字。不用加粗、不用列条目。`;
 
-// ─── concept：ophtho 风格深度讲解 ─────────────────────────────────────────────
+// ─── 第一轮：concept ──────────────────────────────────────────────────────────
 const CONCEPT_PROTOCOL = `你是一个浙江高考的家教学姐，今天要帮学生彻底搞懂一个知识点。
 
 ## 教学原则
@@ -71,7 +71,7 @@ const CONCEPT_PROTOCOL = `你是一个浙江高考的家教学姐，今天要帮
 - 最后：2-3 道验证小题，让学生选择或作答，检验理解
 - 整体语气：学姐带学妹，轻松但有料，不居高临下`;
 
-// ─── review / plan：维持原有协议 ─────────────────────────────────────────────
+// ─── 第一轮：review / plan ────────────────────────────────────────────────────
 const REVIEW_PLAN_PROTOCOL = `你是浙江高考的辅导老师。
 
 **复习/薄弱点类问题（review）**：
@@ -82,27 +82,45 @@ const REVIEW_PLAN_PROTOCOL = `你是浙江高考的辅导老师。
 先问清楚现状（距考试时间、各科水平、每天能用多少时间），再给具体可执行的计划。
 不要一上来就给模板计划，先了解学生再说。`;
 
-function buildSystemPrompt(subject, queryType) {
+// ─── 续轮：有历史消息时使用 ──────────────────────────────────────────────────
+const CONTINUATION_PROTOCOL = `你是浙江高考的一对一家教老师，正在和学生进行辅导对话。
+你已经有了前几轮的对话记录，请根据学生的最新回复继续引导。
+
+规则：
+- 学生答对了：简短鼓励，不要每次都说"非常好！"，换点新鲜的，然后追问"为什么"或引到下一步
+- 学生思路有偏差：不要直接纠正，给一个提示让他自己发现问题
+- 学生说"不会"或"不知道"：把问题拆小一步，降低门槛再问
+- 学生已经很接近了：轻推一下，让他自己得出结论
+- 学生连续两次无法推进：才给出完整步骤，但要解释每步的原因
+
+语气：轻松自然，像朋友一样。不要总用固定的开场白。`;
+
+function buildSystemPrompt(subject, queryType, hasHistory) {
   const agentPrompt = loadAgentPrompt(subject);
   const profileSummary = getProfileSummary();
+  const context = `\n\n---\n【学科背景知识】\n${agentPrompt}\n\n【学生薄弱点】\n${profileSummary}`;
 
-  if (queryType === 'solve') {
-    return `${SOLVE_FIRST_TURN}\n\n---\n【该学科背景知识】\n${agentPrompt}\n\n【学生薄弱点】\n${profileSummary}`;
-  }
-
-  if (queryType === 'concept') {
-    return `${CONCEPT_PROTOCOL}\n\n---\n【该学科背景知识】\n${agentPrompt}\n\n【学生薄弱点】\n${profileSummary}`;
-  }
-
-  // review / plan
-  return `${REVIEW_PLAN_PROTOCOL}\n\n---\n【该学科背景知识】\n${agentPrompt}\n\n【学生薄弱点】\n${profileSummary}`;
+  if (hasHistory) return CONTINUATION_PROTOCOL + context;
+  if (queryType === 'solve') return SOLVE_FIRST_TURN + context;
+  if (queryType === 'concept') return CONCEPT_PROTOCOL + context;
+  return REVIEW_PLAN_PROTOCOL + context;
 }
 
-async function handleMessage(userInput, apiCall) {
+/**
+ * @param {string} userInput
+ * @param {Function} apiCall - 单轮调用（供 dispatcher 使用）
+ * @param {Array} history   - 历史消息数组 [{role, content}, ...]
+ */
+async function handleMessage(userInput, apiCall, history = []) {
   const { subject, queryType } = await dispatch(userInput, apiCall);
-  console.log(`[调度] 学科: ${subject}, 问题类型: ${queryType}`);
-  const systemPrompt = buildSystemPrompt(subject, queryType);
-  const response = await apiCall(systemPrompt, userInput);
+  console.log(`[调度] 学科: ${subject}, 问题类型: ${queryType}, 历史轮数: ${history.length / 2}`);
+
+  const systemPrompt = buildSystemPrompt(subject, queryType, history.length > 0);
+
+  // 构建完整消息列表：历史 + 本轮用户输入
+  const messages = [...history, { role: 'user', content: userInput }];
+  const response = await apiCallWithHistory(systemPrompt, messages);
+
   return { subject, queryType, response };
 }
 
