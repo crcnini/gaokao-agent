@@ -1,0 +1,12 @@
+[
+  {"input": "这道三角函数题怎么做：sin²x + cos²x = ?", "expected_subject": "math", "expected_type": "solve"},
+  {"input": "请解释二次函数的对称轴公式", "expected_subject": "math", "expected_type": "concept"},
+  {"input": "赤壁赋里苏轼表达了什么思想", "expected_subject": "chinese", "expected_type": "concept"},
+  {"input": "帮我分析这篇作文哪里写得不好", "expected_subject": "chinese", "expected_type": "solve"},
+  {"input": "牛顿第二定律F=ma如何用到这道题", "expected_subject": "science", "expected_type": "solve"},
+  {"input": "光合作用的暗反应在哪里进行", "expected_subject": "science", "expected_type": "concept"},
+  {"input": "这个英语从句为什么用虚拟语气", "expected_subject": "english", "expected_type": "concept"},
+  {"input": "距离高考还有100天，帮我制定复习计划", "expected_subject": "general", "expected_type": "plan"},
+  {"input": "我数学老错，帮我看看薄弱点", "expected_subject": "general", "expected_type": "review"},
+  {"input": "化学中氧化还原反应的电子转移怎么计算", "expected_subject": "science", "expected_type": "concept"}
+]
