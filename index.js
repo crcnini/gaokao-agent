@@ -7,7 +7,13 @@ function loadAgentPrompt(subject) {
   const promptMap = {
     math: 'agents/math.md',
     chinese: 'agents/chinese.md',
-    science: 'agents/science.md',
+    physics: 'agents/physics.md',
+    chemistry: 'agents/chemistry.md',
+    biology: 'agents/biology.md',
+    history: 'agents/history.md',
+    geography: 'agents/geography.md',
+    politics: 'agents/politics.md',
+    technology: 'agents/technology.md',
     english: 'agents/english.md',
     general: null
   };

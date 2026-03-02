@@ -1,1 +1,16 @@
-{"weak_topics": {"math": [], "chinese": [], "science": [], "english": []}, "total_sessions": 0, "last_active": ""}
+{
+  "weak_topics": {
+    "math": [],
+    "chinese": [],
+    "physics": [],
+    "chemistry": [],
+    "biology": [],
+    "history": [],
+    "geography": [],
+    "politics": [],
+    "technology": [],
+    "english": []
+  },
+  "total_sessions": 0,
+  "last_active": ""
+}
