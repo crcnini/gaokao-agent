@@ -1,12 +1,326 @@
 [
-  {"input": "这道三角函数题怎么做：sin²x + cos²x = ?", "expected_subject": "math", "expected_type": "solve"},
-  {"input": "请解释二次函数的对称轴公式", "expected_subject": "math", "expected_type": "concept"},
-  {"input": "赤壁赋里苏轼表达了什么思想", "expected_subject": "chinese", "expected_type": "concept"},
-  {"input": "帮我分析这篇作文哪里写得不好", "expected_subject": "chinese", "expected_type": "solve"},
-  {"input": "牛顿第二定律F=ma如何用到这道题", "expected_subject": "science", "expected_type": "solve"},
-  {"input": "光合作用的暗反应在哪里进行", "expected_subject": "science", "expected_type": "concept"},
-  {"input": "这个英语从句为什么用虚拟语气", "expected_subject": "english", "expected_type": "concept"},
-  {"input": "距离高考还有100天，帮我制定复习计划", "expected_subject": "general", "expected_type": "plan"},
-  {"input": "我数学老错，帮我看看薄弱点", "expected_subject": "general", "expected_type": "review"},
-  {"input": "化学中氧化还原反应的电子转移怎么计算", "expected_subject": "science", "expected_type": "concept"}
+  {
+    "input": "已知函数f(x)=x³-3x+1，求f(x)的极值点及极值",
+    "expected_subject": "math",
+    "expected_type": "solve",
+    "source": "浙江2023高考数学压轴导数题型"
+  },
+  {
+    "input": "椭圆x²/4+y²/3=1的焦点到右准线的距离是多少",
+    "expected_subject": "math",
+    "expected_type": "solve",
+    "source": "浙江2022高考解析几何"
+  },
+  {
+    "input": "等差数列{an}中，a₃=7，a₇=15，求前10项和S₁₀",
+    "expected_subject": "math",
+    "expected_type": "solve",
+    "source": "浙江高考数列题型"
+  },
+  {
+    "input": "浙江高考解析几何斜率不存在的情况怎么讨论，总是漏掉",
+    "expected_subject": "math",
+    "expected_type": "concept",
+    "source": "浙江高考常见陷阱"
+  },
+  {
+    "input": "袋子里有3个红球2个白球，不放回摸两次，求两次都是红球的概率",
+    "expected_subject": "math",
+    "expected_type": "solve",
+    "source": "浙江高考概率统计"
+  },
+  {
+    "input": "二项式展开(x+1/x)⁸的第4项系数是多少",
+    "expected_subject": "math",
+    "expected_type": "solve",
+    "source": "浙江2021高考二项式定理"
+  },
+  {
+    "input": "已知向量a=(1,2)，b=(3,-1)，求a·b和|a+b|",
+    "expected_subject": "math",
+    "expected_type": "solve",
+    "source": "浙江高考向量"
+  },
+  {
+    "input": "f(x)=ln(x)+1/x在x=1处的切线方程怎么求",
+    "expected_subject": "math",
+    "expected_type": "solve",
+    "source": "浙江高考导数应用"
+  },
+  {
+    "input": "三角函数里辅助角公式asinx+bcosx=R·sin(x+φ)，那个φ怎么确定",
+    "expected_subject": "math",
+    "expected_type": "concept",
+    "source": "浙江高考三角函数"
+  },
+  {
+    "input": "我导数大题总做不完，最后压轴小问基本放弃，怎么提高",
+    "expected_subject": "math",
+    "expected_type": "review",
+    "source": "学情问题"
+  },
+  {
+    "input": "阅读《论语》'学而不思则罔，思而不学则殆'，请分析孔子的学习观",
+    "expected_subject": "chinese",
+    "expected_type": "concept",
+    "source": "浙江高考文言文理解"
+  },
+  {
+    "input": "杜甫《登高》'无边落木萧萧下，不尽长江滚滚来'，这两句用了什么表现手法",
+    "expected_subject": "chinese",
+    "expected_type": "concept",
+    "source": "浙江2022高考古诗词鉴赏"
+  },
+  {
+    "input": "帮我看看这个议论文开头怎么改：'随着社会的发展，科技越来越重要'",
+    "expected_subject": "chinese",
+    "expected_type": "solve",
+    "source": "浙江高考作文指导"
+  },
+  {
+    "input": "浙江高考语文论述类文本阅读第1题是判断题，总选错，有什么技巧",
+    "expected_subject": "chinese",
+    "expected_type": "review",
+    "source": "浙江高考题型分析"
+  },
+  {
+    "input": "浙江高考作文2023年题目'传统与创新'，帮我分析审题方向",
+    "expected_subject": "chinese",
+    "expected_type": "solve",
+    "source": "浙江2023高考作文"
+  },
+  {
+    "input": "把这句话译成英文：'随着人工智能技术的不断发展，人们的生活方式发生了深刻变化'",
+    "expected_subject": "english",
+    "expected_type": "solve",
+    "source": "浙江高考英语翻译题（浙江特有）"
+  },
+  {
+    "input": "语法填空：The book ___（write）by Lu Xun is still popular today",
+    "expected_subject": "english",
+    "expected_type": "solve",
+    "source": "浙江高考英语语法填空"
+  },
+  {
+    "input": "读后续写里段首句是'She rushed out of the classroom'，怎么开头承接",
+    "expected_subject": "english",
+    "expected_type": "solve",
+    "source": "浙江高考读后续写"
+  },
+  {
+    "input": "not only...but also 和 neither...nor 的用法区别是什么",
+    "expected_subject": "english",
+    "expected_type": "concept",
+    "source": "浙江高考英语语法"
+  },
+  {
+    "input": "浙江英语1月考完了，阅读理解扣了12分，6月怎么针对性提高",
+    "expected_subject": "english",
+    "expected_type": "plan",
+    "source": "浙江高考两次考试策略"
+  },
+  {
+    "input": "一个质量为2kg的物体在10N水平力作用下在粗糙水平面上匀速运动，求摩擦力和动摩擦因数（g=10m/s²）",
+    "expected_subject": "physics",
+    "expected_type": "solve",
+    "source": "浙江高考物理力学"
+  },
+  {
+    "input": "磁场中一根导体棒以速度v=5m/s切割磁感线，B=0.2T，棒长L=1m，求感应电动势",
+    "expected_subject": "physics",
+    "expected_type": "solve",
+    "source": "浙江2023高考电磁感应"
+  },
+  {
+    "input": "浙江物理实验题，用打点计时器研究匀变速运动，如何从纸带求加速度",
+    "expected_subject": "physics",
+    "expected_type": "concept",
+    "source": "浙江高考物理实验（必考）"
+  },
+  {
+    "input": "带正电荷q的粒子以速度v水平射入垂直纸面向里的磁场B，粒子做什么运动，半径是多少",
+    "expected_subject": "physics",
+    "expected_type": "solve",
+    "source": "浙江高考带电粒子在磁场中运动"
+  },
+  {
+    "input": "超重和失重的本质区别是什么？乘电梯时什么情况超重",
+    "expected_subject": "physics",
+    "expected_type": "concept",
+    "source": "浙江高考物理概念"
+  },
+  {
+    "input": "写出铁和稀盐酸反应的离子方程式",
+    "expected_subject": "chemistry",
+    "expected_type": "solve",
+    "source": "浙江高考化学离子方程式"
+  },
+  {
+    "input": "有机物A（分子式C₄H₈O₂）能发生银镜反应，能与Na₂CO₃反应，推断A的结构简式",
+    "expected_subject": "chemistry",
+    "expected_type": "solve",
+    "source": "浙江2022高考有机推断题"
+  },
+  {
+    "input": "原电池和电解池有什么区别？正极和阴极都是发生还原反应，怎么区分",
+    "expected_subject": "chemistry",
+    "expected_type": "concept",
+    "source": "浙江高考电化学（必考）"
+  },
+  {
+    "input": "在一定温度下，反应N₂+3H₂⇌2NH₃增大压强，平衡如何移动？K值变吗",
+    "expected_subject": "chemistry",
+    "expected_type": "concept",
+    "source": "浙江高考化学平衡"
+  },
+  {
+    "input": "浓硫酸和铜反应与稀硫酸和铜反应有什么不同，写出方程式",
+    "expected_subject": "chemistry",
+    "expected_type": "concept",
+    "source": "浙江高考无机化学"
+  },
+  {
+    "input": "一对正常夫妇生了一个白化病的儿子，求再生一个正常女儿的概率",
+    "expected_subject": "biology",
+    "expected_type": "solve",
+    "source": "浙江高考遗传概率题"
+  },
+  {
+    "input": "有丝分裂后期和减数第二次分裂后期的细胞图怎么区分",
+    "expected_subject": "biology",
+    "expected_type": "concept",
+    "source": "浙江高考细胞分裂（高频考点）"
+  },
+  {
+    "input": "生态系统能量流动中，最多消耗生产者的原则，食物链越长消耗越多还是越少",
+    "expected_subject": "biology",
+    "expected_type": "concept",
+    "source": "浙江高考生态系统能量流动"
+  },
+  {
+    "input": "验证某植物叶片中含有淀粉的实验步骤，要用什么试剂，现象是什么",
+    "expected_subject": "biology",
+    "expected_type": "solve",
+    "source": "浙江高考生物实验"
+  },
+  {
+    "input": "胰岛素的分泌受哪些因素调节？血糖调节涉及的激素有哪些，是拮抗关系还是协同关系",
+    "expected_subject": "biology",
+    "expected_type": "concept",
+    "source": "浙江高考稳态与调节"
+  },
+  {
+    "input": "根据材料：汉武帝颁布推恩令，诸侯王必须将其封地分给子弟。概括推恩令的特点并分析其作用",
+    "expected_subject": "history",
+    "expected_type": "solve",
+    "source": "浙江高考历史材料分析题"
+  },
+  {
+    "input": "1894年甲午战争中国战败的原因，从政治、经济、军事三个角度分析",
+    "expected_subject": "history",
+    "expected_type": "solve",
+    "source": "浙江高考近代史"
+  },
+  {
+    "input": "唐代三省六部制与明代内阁制相比，皇权有什么变化",
+    "expected_subject": "history",
+    "expected_type": "concept",
+    "source": "浙江高考政治制度演变（高频）"
+  },
+  {
+    "input": "二战后雅尔塔体系和冷战格局有什么关系，为什么说冷战是两极格局",
+    "expected_subject": "history",
+    "expected_type": "concept",
+    "source": "浙江高考世界史"
+  },
+  {
+    "input": "等高线密集，数值从200到300到400，判断该地地形类型和坡面特征",
+    "expected_subject": "geography",
+    "expected_type": "solve",
+    "source": "浙江高考等高线地形图"
+  },
+  {
+    "input": "地中海气候和温带季风气候的降水特征有什么不同，原因是什么",
+    "expected_subject": "geography",
+    "expected_type": "concept",
+    "source": "浙江高考气候类型"
+  },
+  {
+    "input": "分析舟山渔场成为中国最大渔场的区位条件",
+    "expected_subject": "geography",
+    "expected_type": "solve",
+    "source": "浙江高考区域地理（浙江本地题）"
+  },
+  {
+    "input": "城市化过程中产生了哪些问题？杭州如何应对城市化带来的交通拥堵",
+    "expected_subject": "geography",
+    "expected_type": "concept",
+    "source": "浙江高考人文地理"
+  },
+  {
+    "input": "有人说'价格由供求关系决定'，请用经济生活的知识评析这个观点",
+    "expected_subject": "politics",
+    "expected_type": "solve",
+    "source": "浙江高考政治观点辨析题"
+  },
+  {
+    "input": "联系是普遍的，那我们是否可以随意创造联系？",
+    "expected_subject": "politics",
+    "expected_type": "concept",
+    "source": "浙江高考哲学辩证法"
+  },
+  {
+    "input": "中国政府出台新能源汽车补贴政策，分析政府发挥了哪些经济职能",
+    "expected_subject": "politics",
+    "expected_type": "solve",
+    "source": "浙江高考政治生活"
+  },
+  {
+    "input": "矛盾的主要方面和次要方面是什么意思，举个生活中的例子",
+    "expected_subject": "politics",
+    "expected_type": "concept",
+    "source": "浙江高考哲学矛盾观"
+  },
+  {
+    "input": "以下Python代码有什么错误：for i in range(1,10): print(i) if i%2==0",
+    "expected_subject": "technology",
+    "expected_type": "solve",
+    "source": "浙江高考信息技术Python"
+  },
+  {
+    "input": "冒泡排序的原理是什么？对列表[5,3,8,1,9,2]排序，第一轮结束后结果是什么",
+    "expected_subject": "technology",
+    "expected_type": "solve",
+    "source": "浙江高考信息技术排序算法"
+  },
+  {
+    "input": "通用技术里开环控制和闭环控制有什么区别，空调温控是哪种",
+    "expected_subject": "technology",
+    "expected_type": "concept",
+    "source": "浙江高考通用技术控制系统"
+  },
+  {
+    "input": "设计一款老年人使用的手机APP，从人机关系的角度应该注意哪些设计原则",
+    "expected_subject": "technology",
+    "expected_type": "solve",
+    "source": "浙江高考通用技术设计思维"
+  },
+  {
+    "input": "距离浙江选考还有3个月，我选了物化生，目前物理60分化学70分生物80分，帮我制定冲刺计划",
+    "expected_subject": "general",
+    "expected_type": "plan",
+    "source": "浙江3+3选考规划"
+  },
+  {
+    "input": "我物理和化学都经常在实验题丢分，帮我分析一下共同的薄弱点",
+    "expected_subject": "general",
+    "expected_type": "review",
+    "source": "跨学科薄弱点分析"
+  },
+  {
+    "input": "浙江选考6月和1月的考试，我英语1月考了128，要不要再考6月",
+    "expected_subject": "general",
+    "expected_type": "plan",
+    "source": "浙江高考两次机会策略"
+  }
 ]
