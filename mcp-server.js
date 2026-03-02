@@ -5,6 +5,7 @@ const { CallToolRequestSchema, ListToolsRequestSchema } = require('@modelcontext
 const { handleMessage } = require('./index');
 const { addMistake, getPendingMistakes, getProfileSummary } = require('./tools/memory');
 const { apiCall } = require('./tools/api');
+const { loadSession, saveSession } = require('./tools/session');
 
 const server = new Server(
   { name: 'gaokao-agent', version: '1.0.0' },
@@ -86,14 +87,12 @@ server.setRequestHandler(CallToolRequestSchema, async (request) => {
 
   try {
     if (name === 'ask_gaokao') {
-      const { subject, queryType, response } = await handleMessage(args.question, apiCall);
+      const session = loadSession();
+      const { subject, queryType, response } = await handleMessage(args.question, apiCall, session.messages);
+      const clean = response.replace(/<think>[\s\S]*?<\/think>/g, '').trim();
+      saveSession([...session.messages, { role: 'user', content: args.question }, { role: 'assistant', content: clean }], subject);
       return {
-        content: [
-          {
-            type: 'text',
-            text: `【学科：${subject} | 类型：${queryType}】\n\n${response}`
-          }
-        ]
+        content: [{ type: 'text', text: clean }]
       };
     }
 
