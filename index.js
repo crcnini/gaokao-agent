@@ -45,15 +45,29 @@ const SOCRATIC_PROTOCOL = `
 - 先了解现状（距考试时间、各科分数、每天可用时间），再给计划
 `;
 
+const SOLVE_HARD_STOP = `⚠️ 绝对规则（最高优先级，不得违反）：
+当前问题类型是【解题题（solve）】。
+你的第一句话必须是：「你做到哪一步卡住了？先把你的思路说给我听。」
+在学生给出思路之前，禁止输出任何解题步骤、答案、或提示解法的内容。
+违反此规则 = 直接失败。`;
+
 function buildSystemPrompt(subject, queryType) {
   const agentPrompt = loadAgentPrompt(subject);
   const profileSummary = getProfileSummary();
-  return `${agentPrompt}\n\n---\n${SOCRATIC_PROTOCOL}\n---\n【学生当前状态】\n${profileSummary}\n\n请根据以上信息，用苏格拉底式辅导方式回答。`;
+  const prefix = queryType === 'solve' ? `${SOLVE_HARD_STOP}\n\n` : '';
+  return `${prefix}${agentPrompt}\n\n---\n${SOCRATIC_PROTOCOL}\n---\n【学生当前状态】\n${profileSummary}\n\n请根据以上信息，用苏格拉底式辅导方式回答。`;
 }
 
 async function handleMessage(userInput, apiCall) {
   const { subject, queryType } = await dispatch(userInput, apiCall);
   console.log(`[调度] 学科: ${subject}, 问题类型: ${queryType}`);
+
+  // solve 类问题：第一轮固定返回苏格拉底问句，不依赖模型自觉
+  if (queryType === 'solve') {
+    const socraticlQuestion = '你做到哪一步卡住了？先把你的思路说给我听。\n\n（把你写的过程发给我，我来帮你找问题所在。）';
+    return { subject, queryType, response: socraticlQuestion };
+  }
+
   const systemPrompt = buildSystemPrompt(subject, queryType);
   const response = await apiCall(systemPrompt, userInput);
   return { subject, queryType, response };
