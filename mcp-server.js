@@ -3,9 +3,10 @@ const { StdioServerTransport } = require('@modelcontextprotocol/sdk/server/stdio
 const { CallToolRequestSchema, ListToolsRequestSchema } = require('@modelcontextprotocol/sdk/types.js');
 
 const { handleMessage } = require('./index');
-const { addMistake, getPendingMistakes, getProfileSummary } = require('./tools/memory');
+const { addMistake, getPendingMistakes, getProfileSummary, updateWeakTopics } = require('./tools/memory');
 const { apiCall } = require('./tools/api');
 const { loadSession, saveSession } = require('./tools/session');
+const { detectMistake } = require('./tools/detector');
 
 const server = new Server(
   { name: 'gaokao-agent', version: '1.0.0' },
@@ -88,11 +89,22 @@ server.setRequestHandler(CallToolRequestSchema, async (request) => {
   try {
     if (name === 'ask_gaokao') {
       const session = loadSession();
-      const { subject, queryType, response } = await handleMessage(args.question, apiCall, session.messages);
+      const isContinuation = session.messages.length > 0;
+      const { subject, response } = await handleMessage(args.question, apiCall, session.messages);
       const clean = response.replace(/<think>[\s\S]*?<\/think>/g, '').trim();
-      saveSession([...session.messages, { role: 'user', content: args.question }, { role: 'assistant', content: clean }], subject);
+      const display = clean.replace(/\n?\[MISTAKE:[^\]]+\]/, '').trim();
+      saveSession([...session.messages, { role: 'user', content: args.question }, { role: 'assistant', content: display }], subject);
+      // 续轮时异步检测错误（不阻塞 MCP 响应）
+      if (isContinuation) {
+        detectMistake(args.question, subject, apiCall).then(result => {
+          if (result) {
+            addMistake(subject, result.topic, args.question.slice(0, 100), result.errorType);
+            updateWeakTopics(subject, result.topic);
+          }
+        }).catch(() => {});
+      }
       return {
-        content: [{ type: 'text', text: clean }]
+        content: [{ type: 'text', text: display }]
       };
     }
 
